@@ -81,28 +81,25 @@ func (c *ibmCloudCisProviderSolver) Present(ch *v1alpha1.ChallengeRequest) error
 func findLongestMatchingZone(zones []cis.Zone, fqdn string) *cis.Zone {
     var longestMatchZone *cis.Zone
     var longestMatchLength int
+    var longestMatchIndex = -1
 
-    for _, zone := range zones {
+    for i, zone := range zones {
         log.Printf("Checking zone: %s (id: %s)", zone.Name, zone.Id)
         zoneNameWithDot := zone.Name + "."
-        log.Printf("zone with dot: %s ", zoneNameWithDot)
-        if strings.HasSuffix(fqdn, zoneNameWithDot) {
-            log.Printf("Match found with zone: %s", zone.Name)
-            if len(zoneNameWithDot) > longestMatchLength {
-                log.Printf("Updating longest match to zone: %s with length: %d", zone.Name, len(zoneNameWithDot))
-                longestMatchLength = len(zoneNameWithDot)
-                longestMatchZone = &zone
-            }
-        } else {
-            log.Printf("No match for zone: %s", zone.Name)
+        if strings.HasSuffix(fqdn, zoneNameWithDot) && len(zoneNameWithDot) > longestMatchLength {
+            log.Printf("Updating longest match to zone: %s with length: %d", zone.Name, len(zoneNameWithDot))
+            longestMatchLength = len(zoneNameWithDot)
+            longestMatchIndex = i
         }
     }
 
-    if longestMatchZone != nil {
+    if longestMatchIndex != -1 {
+        longestMatchZone = &zones[longestMatchIndex]
         log.Printf("Longest matching zone found: %s", longestMatchZone.Name)
     } else {
         log.Printf("No matching zone found")
     }
+
     return longestMatchZone
 }
 
