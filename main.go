@@ -55,6 +55,8 @@ func (c *ibmCloudCisProviderSolver) Present(ch *v1alpha1.ChallengeRequest) error
 		return err
 	}
 
+  log.Debug(fmt.Sprintf("presenting challenge %s -> %s (%s)", ch.DNSName, ch.Key, ch.ResolvedFQDN))
+
 	zonesApi := c.ibmCloudCisApi.Zones()
 
 	for _, crn := range cfg.IbmCloudCisCrns {
@@ -65,6 +67,7 @@ func (c *ibmCloudCisProviderSolver) Present(ch *v1alpha1.ChallengeRequest) error
 		}
 
 		longestMatchZone := findLongestMatchingZone(myZones, ch.ResolvedFQDN)
+    log.Debug(fmt.Sprintf("Longest matching zone: %s (id: %s)", longestMatchZone.Name, longestMatchZone.Id))
 		if longestMatchZone != nil {
 			if err := c.createDNSChallengeRecord(crn, longestMatchZone.Id, ch); err != nil {
 				return err
