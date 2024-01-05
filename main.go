@@ -55,7 +55,7 @@ func (c *ibmCloudCisProviderSolver) Present(ch *v1alpha1.ChallengeRequest) error
 		return err
 	}
 
-  log.Debug(fmt.Sprintf("presenting challenge %s -> %s (%s)", ch.DNSName, ch.Key, ch.ResolvedFQDN))
+  log.Printf("presenting challenge %s -> %s (%s)", ch.DNSName, ch.Key, ch.ResolvedFQDN)
 
 	zonesApi := c.ibmCloudCisApi.Zones()
 
@@ -67,7 +67,7 @@ func (c *ibmCloudCisProviderSolver) Present(ch *v1alpha1.ChallengeRequest) error
 		}
 
 		longestMatchZone := findLongestMatchingZone(myZones, ch.ResolvedFQDN)
-    log.Debug(fmt.Sprintf("Longest matching zone: %s (id: %s)", longestMatchZone.Name, longestMatchZone.Id))
+    log.Printf("Longest matching zone for %s: %s", ch.ResolvedFQDN, longestMatchZone.Id)
 		if longestMatchZone != nil {
 			if err := c.createDNSChallengeRecord(crn, longestMatchZone.Id, ch); err != nil {
 				return err
@@ -83,6 +83,7 @@ func findLongestMatchingZone(zones []cis.Zone, fqdn string) *cis.Zone {
 	var longestMatchLength int
 
 	for _, zone := range zones {
+    log.Printf("zone: %s", zone.Name)
 		zoneNameWithDot := zone.Name + "."
 		if strings.HasSuffix(fqdn, zoneNameWithDot) && len(zoneNameWithDot) > longestMatchLength {
 			longestMatchLength = len(zoneNameWithDot)
