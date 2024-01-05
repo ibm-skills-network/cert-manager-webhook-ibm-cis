@@ -67,7 +67,7 @@ func (c *ibmCloudCisProviderSolver) Present(ch *v1alpha1.ChallengeRequest) error
 		}
 
 		longestMatchZone := findLongestMatchingZone(myZones, ch.ResolvedFQDN)
-    log.Printf("Longest matching zone for %s: %s", ch.ResolvedFQDN, longestMatchZone.Id)
+    log.Printf("Longest matching zone for %s: %s", ch.ResolvedFQDN, longestMatchZone.Name)
 		if longestMatchZone != nil {
 			if err := c.createDNSChallengeRecord(crn, longestMatchZone.Id, ch); err != nil {
 				return err
@@ -83,7 +83,7 @@ func findLongestMatchingZone(zones []cis.Zone, fqdn string) *cis.Zone {
 	var longestMatchLength int
 
 	for _, zone := range zones {
-    log.Printf("zone: %s", zone.Name)
+    log.Printf("zone: %s (id: %s)", zone.Name, zone.Id)
 		zoneNameWithDot := zone.Name + "."
 		if strings.HasSuffix(fqdn, zoneNameWithDot) && len(zoneNameWithDot) > longestMatchLength {
 			longestMatchLength = len(zoneNameWithDot)
@@ -102,6 +102,8 @@ func (c *ibmCloudCisProviderSolver) createDNSChallengeRecord(crn, zoneID string,
 		DnsType: "TXT",
 		Content: ch.Key,
 	})
+
+  log.Printf("Creating TXT record %s (content: %s), crn: %s, zoneId: %s", ch.ResolvedFQDN, ch.Key, crn, zoneID)
 
 	if err != nil {
 		log.WithError(err).WithFields(log.Fields{"crn": crn, "zoneID": zoneID}).Error("Error creating DNS01 challenge")
