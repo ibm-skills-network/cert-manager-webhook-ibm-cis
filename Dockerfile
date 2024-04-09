@@ -15,7 +15,7 @@ COPY main.go .
 
 RUN CGO_ENABLED=0 go build -o webhook -ldflags '-w -extldflags "-static"' .
 
-FROM alpine:3.18 as final
+FROM alpine:3.19 as final
 
 RUN addgroup -g 1000 appgroup && adduser -u 1000 -G appgroup -D webhook
 
