@@ -6,7 +6,7 @@ require (
 	github.com/IBM-Cloud/bluemix-go v0.0.0-20231207111833-cf0937e108a4
 	github.com/cert-manager/cert-manager v1.12.6
 	github.com/miekg/dns v1.1.50
-	github.com/stretchr/testify v1.8.4
+	github.com/stretchr/testify v1.9.0
 	k8s.io/apiextensions-apiserver v0.27.2
 	k8s.io/client-go v0.27.2
 )
