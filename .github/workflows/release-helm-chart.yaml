@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -41,7 +41,7 @@ jobs:
           helm package deploy/cert-manager-ibm-cis-webhook
 
       - name: Check Out Helm Chart Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: ibm-skills-network/charts
           token: ${{ secrets.PUBLIC_HELM_CHART_REPO_PUBLISH_TOKEN }}
