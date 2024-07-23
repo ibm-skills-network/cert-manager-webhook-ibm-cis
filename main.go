@@ -105,13 +105,13 @@ func findLongestMatchingZone(zones []cis.Zone, fqdn string) (*cis.Zone, error) {
 func (c *ibmCloudCisProviderSolver) createDNSChallengeRecord(crn, zoneID string, ch *v1alpha1.ChallengeRequest) error {
 	dnsAPI := c.ibmCloudCisApi.Dns()
 
+	time.Sleep(5 * time.Second)
+
 	_, err := dnsAPI.CreateDns(crn, zoneID, cis.DnsBody{
 		Name:    ch.ResolvedFQDN,
 		DnsType: "TXT",
 		Content: ch.Key,
 	})
-
-	time.Sleep(5 * time.Second)
 
   log.Printf("Creating challenge TXT record %s (content: %s), crn: %s, zoneId: %s", ch.ResolvedFQDN, ch.Key, crn, zoneID)
 
