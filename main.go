@@ -1,6 +1,7 @@
 package main
 
 import (
+	"time"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -110,6 +111,8 @@ func (c *ibmCloudCisProviderSolver) createDNSChallengeRecord(crn, zoneID string,
 		Content: ch.Key,
 	})
 
+	time.Sleep(5 * time.Second)
+
   log.Printf("Creating challenge TXT record %s (content: %s), crn: %s, zoneId: %s", ch.ResolvedFQDN, ch.Key, crn, zoneID)
 
 	if err != nil {
@@ -160,6 +163,7 @@ func (c *ibmCloudCisProviderSolver) deleteMatchingTXTRecords(crn, zoneID string,
 
 	for _, myDnsrec := range myDnsrecs {
 		if myDnsrec.DnsType == "TXT" && (myDnsrec.Name+".") == ch.ResolvedFQDN && myDnsrec.Content == ch.Key {
+			time.Sleep(5 * time.Second)
 			if err := dnsAPI.DeleteDns(crn, zoneID, myDnsrec.Id); err != nil {
 				return err
 			}
