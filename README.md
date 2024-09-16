@@ -37,16 +37,16 @@ spec:
       name: letsencrypt
     server: https://acme-v02.api.letsencrypt.org/directory
     solvers:
-    - dns01:
-        webhook:
-          config:
-            ibmCloudCisCrns:
-            - 'crn:v1:bluemix:public:internet-svcs:global:a/***:***::'
-          groupName: acme.skills.network
-          solverName: ibm-cloud-cis
-      selector:
-        dnsZones:
-        - your.site.domain.com
+      - dns01:
+          webhook:
+            config:
+              ibmCloudCisCrns:
+                - "crn:v1:bluemix:public:internet-svcs:global:a/***:***::"
+            groupName: acme.skills.network
+            solverName: ibm-cloud-cis
+        selector:
+          dnsZones:
+            - your.site.domain.com
 ```
 
 After update your issuer, cert-manager should be able to automatically complete challenges for your certificates on IBM CIS-managed domains.
