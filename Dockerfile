@@ -1,4 +1,4 @@
-FROM golang:1.22-alpine3.19 AS build_deps
+FROM golang:1.22-alpine AS build_deps
 
 RUN apk add --no-cache git
 
@@ -11,13 +11,17 @@ RUN go mod download
 
 FROM build_deps AS build
 
-COPY . .
+COPY main.go .
 
 RUN CGO_ENABLED=0 go build -o webhook -ldflags '-w -extldflags "-static"' .
 
-FROM alpine:3.18
+FROM alpine:3 as final
+
+RUN addgroup -g 1000 appgroup && adduser -u 1000 -G appgroup -D webhook
 
 RUN apk add --no-cache ca-certificates
+
+USER 1000
 
 COPY --from=build /workspace/webhook /usr/local/bin/webhook
 

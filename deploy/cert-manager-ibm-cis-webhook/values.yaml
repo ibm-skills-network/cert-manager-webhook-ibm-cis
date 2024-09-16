@@ -6,23 +6,36 @@
 # solve the DNS01 challenge.
 # This group name should be **unique**, hence using your own company's domain
 # here is recommended.
-groupName: acme.mycompany.com
+groupName: acme.skills.network
+
+ibmCloudApiKey: ""
+
+networkPolicies:
+  enabled: false
 
 certManager:
   namespace: cert-manager
   serviceAccountName: cert-manager
-
 image:
-  repository: mycompany/webhook-image
+  repository: icr.io/skills-network/cert-manager-webhook-ibm-cis
   tag: latest
   pullPolicy: IfNotPresent
+imagePullSecrets: []
+# e.g.
+# imagePullSecrets:
+#   - name: icr-io
 
 nameOverride: ""
 fullnameOverride: ""
 
+containerPort: 8443
+
 service:
   type: ClusterIP
   port: 443
+
+pdb:
+  enabled: true
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
