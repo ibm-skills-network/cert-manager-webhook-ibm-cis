@@ -16,6 +16,7 @@ import (
 	"github.com/cert-manager/cert-manager/pkg/acme/webhook/cmd"
 	cmmeta "github.com/cert-manager/cert-manager/pkg/apis/meta/v1"
 
+	bmxerror "github.com/IBM-Cloud/bluemix-go/bmxerror"
 	cis "github.com/IBM-Cloud/bluemix-go/api/cis/cisv1"
 	cissession "github.com/IBM-Cloud/bluemix-go/session"
 )
@@ -113,6 +114,16 @@ func (c *ibmCloudCisProviderSolver) createDNSChallengeRecord(crn, zoneID string,
   log.Printf("Creating challenge TXT record %s (content: %s), crn: %s, zoneId: %s", ch.ResolvedFQDN, ch.Key, crn, zoneID)
 
 	if err != nil {
+		// This is the error code returned by IBM Cloud CIS when a record with the exact name and content already exists
+		const errCodeExactRecordAlreadyExists = "81058"
+		if bmxErr, ok := err.(bmxerror.RequestFailure); ok && bmxErr.Code() == errCodeExactRecordAlreadyExists {
+		    log.WithFields(log.Fields{
+			"fqdn": ch.ResolvedFQDN,
+			"key":  ch.Key,
+		    }).Info("DNS01 challenge already exists")
+		    return nil
+		}
+
 		log.WithError(err).WithFields(log.Fields{"crn": crn, "zoneID": zoneID}).Error("Error creating DNS01 challenge")
 		return err
 	}
