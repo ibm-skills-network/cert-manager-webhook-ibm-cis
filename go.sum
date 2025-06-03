@@ -513,7 +513,6 @@ k8s.io/client-go v0.30.5 h1:vEDSzfTz0F8TXcWVdXl+aqV7NAV8M3UvC2qnGTTCoKw=
 k8s.io/client-go v0.30.5/go.mod h1:/q5fHHBmhAUesOOFJACpD7VJ4e57rVtTPDOsvXrPpMk=
 k8s.io/component-base v0.30.5 h1:O6W8GfdBuyctVy7lu7I0yo8kB6bYgzGzjCyaagb2BR0=
 k8s.io/component-base v0.30.5/go.mod h1:eliJtfE7RG18UHMWrqPQWodf1GnQVFGA6McNOHYi11g=
-k8s.io/klog v0.2.0 h1:0ElL0OHzF3N+OhoJTL0uca20SxtYt4X4+bzHeqrB83c=
 k8s.io/klog/v2 v2.130.1 h1:n9Xl7H1Xvksem4KFG4PYbdQCQxqc/tTUyrgXaOhHSzk=
 k8s.io/klog/v2 v2.130.1/go.mod h1:3Jpz1GvMt720eyJH1ckRHK1EDfpxISzJ7I9OYgaDtPE=
 k8s.io/kms v0.30.5 h1:hv7tnGDrxbgpedBhBfGhSu9+v5aW5uhG6w36fBIK1K8=
