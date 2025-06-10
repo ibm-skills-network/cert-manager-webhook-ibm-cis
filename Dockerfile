@@ -1,4 +1,4 @@
-FROM golang:1.22-alpine AS build_deps
+FROM golang:1.24-alpine AS build_deps
 
 RUN apk add --no-cache git
 
@@ -18,8 +18,10 @@ RUN CGO_ENABLED=0 go build -o webhook -ldflags '-w -extldflags "-static"' .
 FROM alpine:3 as final
 
 RUN addgroup -g 1000 appgroup && adduser -u 1000 -G appgroup -D webhook
-
-RUN apk add --no-cache ca-certificates
+# Ensure openssl is up to date
+RUN apk add --no-cache ca-certificates \
+    && apk -U upgrade \
+    && rm -rf /var/cache/apk/*
 
 USER 1000
 
