@@ -20,7 +20,7 @@ FROM alpine:3 as final
 RUN addgroup -g 1000 appgroup && adduser -u 1000 -G appgroup -D webhook
 # Ensure openssl is up to date
 RUN apk add --no-cache ca-certificates \
-    && apk upgrade openssl \
+    && apk -U upgrade \
     && rm -rf /var/cache/apk/*
 
 USER 1000
