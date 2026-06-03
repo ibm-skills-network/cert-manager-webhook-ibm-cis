@@ -2,7 +2,7 @@ module github.com/ibm-skills-network/cert-manager-webhook-ibm-cis
 
 go 1.24.0
 
-toolchain go1.24.4
+toolchain go1.26.4
 
 require (
 	github.com/IBM-Cloud/bluemix-go v0.0.0-20250409011132-bdd4531aaa04
