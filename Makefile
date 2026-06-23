@@ -7,7 +7,7 @@ IMAGE_TAG := "latest"
 
 OUT := $(shell pwd)/_out
 
-ENVTEST_K8S_VERSION=1.30.0
+ENVTEST_K8S_VERSION=1.35.0
 
 HELM_FILES := $(shell find deploy/cert-manager-ibm-cis-webhook)
 
