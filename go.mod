@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/IBM-Cloud/bluemix-go v0.0.0-20250409011132-bdd4531aaa04
-	github.com/cert-manager/cert-manager v1.20.2
+	github.com/cert-manager/cert-manager v1.20.3
 	k8s.io/apiextensions-apiserver v0.35.2
 	k8s.io/client-go v0.35.2
 )
